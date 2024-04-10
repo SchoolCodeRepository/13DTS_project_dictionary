@@ -23,7 +23,10 @@ def render_home():
 
 @app.route('/dictionary')
 def render_dicionary():
-    return render_template("dictionary_page.html")
+    con = create_connection(DATABASE)
+    query = "SELECT word_table.word, word_table.definition"
+
+    return render_template("dictionary_page.html",dictionary=dictionary)
 
 
 @app.route('/login')

@@ -1,28 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Maori Dictionary</title>
-    <link rel = "stylesheet" href="static/Styles.css"/
-</head>
-<body>
-<nav>
-    <div class= "container">BIG RABBITS</div>
-        <div class="navbar-links">
-            <a href="/">Home</a>
-            <a href="/dictionary">Dictionary</a>
-            <a href="/login">Login</a>
-        </div>
-</nav>
-<div class="container">
-    <header>
-        <h1></h1>
-        <h2>{% block pageheading %}{% endblock %}</h2>
-    </header>
-    <main>
-        {% block content %}
-        {% endblock %}
-    </main>
-</div>
-</body>
-</html>
+{% extends 'Page_Template.html' %}
+
+{% block pageheading %}Home Page{% endblock %}
+
+{% block content %}
+{% endblock %}
