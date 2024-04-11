@@ -1,2 +1,14 @@
 {% extends 'Page_Template.html' %}
+
+{% block pageheading %}
+{% endblock %}
+
+{% block content %}
+    {% for word in dictionary %}
+        <tr>
+            {% for heading in headings %}
+                <th>headings[heading]</th>
+            {% endfor %}
+        </tr>
+    {% endfor %}
 {% endblock %}

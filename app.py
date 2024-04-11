@@ -19,18 +19,28 @@ def create_connection(db_file):
 
 @app.route('/')
 def render_home():
+    #This function renders the websites homepage
     return render_template("home_page.html")
 
 @app.route('/dictionary')
 def render_dicionary():
+    #this function renders the dictionary page, and returns the
+    #data from a table to allow the site to acess it using sql
     con = create_connection(DATABASE)
-    query = "SELECT word_table.word, word_table.definition"
-
-    return render_template("dictionary_page.html",dictionary=dictionary)
+    query = '''SELECT word_table.word, word_table.definition, word_table.level, word_table.english_translation, word_table.category 
+                FROM collation INNER JOIN word_table ON collation.word_id_fk = word_table.word_id'''
+    cur = con.cursor()
+    cur.execute(query)
+    dictionary = cur.fetchall()
+    headings = ['Maori word','Definition','level','English translation','Category']
+    print(dictionary)
+    con.close()
+    return render_template("dictionary_page.html",dictionary=dictionary, headings=headings)
 
 
 @app.route('/login')
 def render_login():
+    #this function renders the dictionary page of the website
     return render_template("login_page.html")
 
 
