@@ -4,11 +4,14 @@
 {% endblock %}
 
 {% block content %}
-    {% for word in dictionary %}
+    {% for word in word_list %}
         <tr>
-            {% for heading in headings %}
-                <th>headings[heading]</th>
-            {% endfor %}
+            <td>{{ word[0] }}</td>
+            <td>{{ word[1] }}</td>
+            <td>{{ word[2] }}</td>
+            <td>{{ word[3] }}</td>
+            <td>{{ word[4] }}</td>
         </tr>
+        <br>
     {% endfor %}
 {% endblock %}

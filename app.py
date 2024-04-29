@@ -31,11 +31,10 @@ def render_dicionary():
                 FROM collation INNER JOIN word_table ON collation.word_id_fk = word_table.word_id'''
     cur = con.cursor()
     cur.execute(query)
-    dictionary = cur.fetchall()
-    headings = ['Maori word','Definition','level','English translation','Category']
-    print(dictionary)
+    word_list = cur.fetchall()
+    print(word_list)
     con.close()
-    return render_template("dictionary_page.html",dictionary=dictionary, headings=headings)
+    return render_template("dictionary_page.html",word_list=word_list)
 
 
 @app.route('/login')
