@@ -1,3 +1,11 @@
-th, td{
+table, tr, td{
     border: 1px solid;
+}
+
+.content_box{
+
+}
+
+.organiser{
+
 }

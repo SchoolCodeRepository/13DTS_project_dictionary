@@ -4,14 +4,11 @@
 {% endblock %}
 
 {% block content %}
+    <div class="organiser">
     {% for word in word_list %}
-        <tr>
-            <td>{{ word[0] }}</td>
-            <td>{{ word[1] }}</td>
-            <td>{{ word[2] }}</td>
-            <td>{{ word[3] }}</td>
-            <td>{{ word[4] }}</td>
-        </tr>
-        <br>
+        <div class="content_box">
+            {{ word[0] }}
+        </div>
     {% endfor %}
+    </div>
 {% endblock %}
