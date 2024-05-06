@@ -7,7 +7,14 @@
     <div class="organiser">
     {% for word in word_list %}
         <div class="content_box">
-            {{ word[0] }}
+            <div class="maori_word">{{ word[0] }}</div>
+            <div class="definition">{{ word[1] }}</div>
+            <div class="level">{{ word[2] }}</div>
+            <div class="english_equivilant">{{ word[3] }}</div>
+            <div class="catagorie">{{ word[4] }}</div>
+            <div class="image">
+                <image src="" onerror="this.onerror=null;this.src='static/images/apple.jpg';"></image>
+            </div>
         </div>
     {% endfor %}
     </div>

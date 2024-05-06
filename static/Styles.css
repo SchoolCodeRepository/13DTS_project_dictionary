@@ -2,10 +2,41 @@ table, tr, td{
     border: 1px solid;
 }
 
+.organiser{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
 .content_box{
+    width: 32%;
+    border: 1px solid rgba(189, 195, 199, 1.0);
+    color: rgba(44, 62, 80, 1.0);
+    margin-bottom: 0.5rem;
+}
+
+.maori_word{
 
 }
 
-.organiser{
+.definition{
 
+}
+
+.level{
+
+}
+
+.english_equivilant{
+
+}
+
+.catagorie{
+
+
+}
+
+.image{
+    position:absolute;
+    width:80%;
 }
