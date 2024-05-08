@@ -42,6 +42,12 @@ def render_login():
     #this function renders the dictionary page of the website
     return render_template("login_page.html")
 
+@app.route('/register', methods=['POST','GET'])
+def render_register():
+    #this function renders the registration page on the website, and collects the users data.
 
+
+
+    return render_template("register_page.html")
 
 app.run(host='0.0.0.0', debug=True)
