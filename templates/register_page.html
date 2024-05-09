@@ -4,15 +4,34 @@
 {% endblock %}
 
 {% block content %}
-    <form>
-        <label for="fname">First name:</label>
-        <input type="text" id="fname" name="fname"></br>
-        <label for="lname">Last name:</label></br>
-        <input type="text" id="lname" name="lname"></br>
-        <label for="password">Password</label></br>
-        <input type="text" id="password" name="password"></br>
-        <label for="email">Email:</label></br>
-        <input type="text" id="email" name="email"></br>
-        <label for="permission">Permissions:</label>
+    <form method="post">
+        <div class="form_box" >
+            <label for="fname">First name:</label></br>
+            <input type="text" id="fname" name="fname"></br>
+        </div>
+        <div class="form_box">
+            <label for="lname">Last name:</label></br>
+            <input type="text" id="lname" name="lname"></br>
+        </div>
+        <div class="form_box">
+            <label for="password">Password</label></br>
+            <input type="text" id="password" name="password"></br>
+        </div>
+        <div class="form_box">
+            <label for="confirm_password">Confirm Password</label></br>
+            <input type="text" id="confirm_password" name="confirm_password"></br>
+        </div>
+        <div class="form_box">
+            <label for="email">Email:</label></br>
+            <input type="text" id="email" name="email"></br>
+        </div>
+        <div class="form_box">
+            <label for="permission">Permissions:</label></br>
+            <input type="text" id="permission" name="permission"></br>
+        </div>
+        <div class="form_box">
+            <input type="submit" value="Submit" ></br>
+        </div>
     </form>
+    <h1>{{ error }}</h1>
 {% endblock %}

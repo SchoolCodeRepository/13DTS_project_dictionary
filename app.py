@@ -5,7 +5,6 @@ from flask import Flask, render_template, redirect, request
 app = Flask(__name__)
 DATABASE = "C:/Users/20245/OneDrive - Wellington College/13DTS/Coding projects/flaskProject2/Dictionary"
 
-
 def create_connection(db_file):
     #This function creates a connection with the database
     #which means that the database file is open
@@ -45,9 +44,18 @@ def render_login():
 @app.route('/register', methods=['POST','GET'])
 def render_register():
     #this function renders the registration page on the website, and collects the users data.
-
-
-
-    return render_template("register_page.html")
+    if request.method == 'POST':
+        #this if statement collects data from the registration form, and then tests to see if its appropriate
+        #before inserting it into the database
+        password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password')
+        email = request.form.get('email')
+        fname = request.form.get('fname')
+        lname = request.form.get('lname')
+        print(f'{fname} {lname} {password} {confirm_password} {email} ')
+        if password != confirm_password:
+            error = 'passwords do not match!'
+            return redirect('/register?error=passwords+do+not+match')
+    return render_template("register_page.html",error = error)
 
 app.run(host='0.0.0.0', debug=True)
