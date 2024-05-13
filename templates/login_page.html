@@ -5,14 +5,20 @@
 
 {% block content %}
 
-    <form mehtod="post">
+    <form method="post">
         <div class="form_box">
-            <labal for="email">Email</labal></br>
-            <input type="text" id="email" name="email"></br>
-        </div>
+            <label for="email">Email</label>
+            <input type="text" id="email" name="email">
+        </div></br>
         <div class="form_box">
-            <labal for="password">Password</labal></br>
-            <input type="password" id="password" name="password"></br>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password">
+        </div></br>
+        <div class="form_box">
+            <input type="submit" value="Submit">
+        </div></br>
+        <div class = "content_box">
+            <a href="/register" > register </a>
         </div>
     </form>
 

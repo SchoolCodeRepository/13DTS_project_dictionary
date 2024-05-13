@@ -1,6 +1,6 @@
 import sqlite3
 from sqlite3 import Error
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, session
 
 app = Flask(__name__)
 DATABASE = "C:/Users/20245/OneDrive - Wellington College/13DTS/Coding projects/flaskProject2/Dictionary"
@@ -36,9 +36,21 @@ def render_dicionary():
     return render_template("dictionary_page.html",word_list=word_list)
 
 
-@app.route('/login')
+@app.route('/login', methods=['POST','GET'])
 def render_login():
     #this function renders the dictionary page of the website
+    if request.method == 'POST':
+        #This gets the signin information from the user and checks to see if they are in the database.
+        email = request.form.get('email')
+        con = create_connection(DATABASE)
+        cur = con.cursor()
+        query = """SELECT user_id.user_table, email.users_table, password.users_table  
+                    FROM collation INNER JOIN users_table ON collation.users_id_fk = users_table.user_id
+                    WHERE email.users_table = ?"""
+        cur.execute(query, (email,))
+        user_info = cur.fetchall()
+        con.close()
+        print(user_info)
     return render_template("login_page.html")
 
 @app.route('/register', methods=['POST','GET'])
@@ -66,6 +78,7 @@ def render_register():
             return redirect('/register?error=invalid+email')
         else:
             con  = create_connection(DATABASE)
+            #This sql adds the new users information to the database
             query = "INSERT INTO users_table(fname, lname, permissions, password, email) VALUES(?,?,?,?,?)"
             try:
                 cur = con.cursor()
