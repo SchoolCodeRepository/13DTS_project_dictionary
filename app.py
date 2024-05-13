@@ -43,6 +43,7 @@ def render_login():
 
 @app.route('/register', methods=['POST','GET'])
 def render_register():
+    email_test=[]
     #this function renders the registration page on the website, and collects the users data.
     if request.method == 'POST':
         #this if statement collects data from the registration form, and then tests to see if its appropriate
@@ -52,10 +53,29 @@ def render_register():
         email = request.form.get('email')
         fname = request.form.get('fname')
         lname = request.form.get('lname')
-        print(f'{fname} {lname} {password} {confirm_password} {email} ')
+        permisson = request.form.get('permisson')
+        print(f'{fname} {lname} {password} {confirm_password} {email} {permisson} ')
+        #this set of conditions makes sure that the signup details reach certain specifications
+        for character in email:
+            email_test.append(character)
         if password != confirm_password:
-            error = 'passwords do not match!'
             return redirect('/register?error=passwords+do+not+match')
-    return render_template("register_page.html",error = error)
+        elif len(password) < 10:
+            return redirect('/register?error=password+not+long+enough')
+        elif '@' not in email_test:
+            return redirect('/register?error=invalid+email')
+        else:
+            con  = create_connection(DATABASE)
+            query = "INSERT INTO users_table(fname, lname, permissions, password, email) VALUES(?,?,?,?,?)"
+            try:
+                cur = con.cursor()
+                cur.execute(query, (fname, lname, permisson, password, email))
+            except sqlite3.IntegrityError:
+                con.close()
+                return redirect('/register?email+already+in+use')
+            con.commit()
+            con.close()
+            return redirect('/login')
+    return render_template("register_page.html")
 
 app.run(host='0.0.0.0', debug=True)

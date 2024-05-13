@@ -1,3 +1,19 @@
 {% extends 'Page_Template.html' %}
 
+{% block pageheading %}
+{% endblock %}
+
+{% block content %}
+
+    <form mehtod="post">
+        <div class="form_box">
+            <labal for="email">Email</labal></br>
+            <input type="text" id="email" name="email"></br>
+        </div>
+        <div class="form_box">
+            <labal for="password">Password</labal></br>
+            <input type="password" id="password" name="password"></br>
+        </div>
+    </form>
+
 {% endblock %}
