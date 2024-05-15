@@ -26,8 +26,8 @@ def render_dicionary():
     #this function renders the dictionary page, and returns the
     #data from a table to allow the site to acess it using sql
     con = create_connection(DATABASE)
-    query = '''SELECT word_table.word, word_table.definition, word_table.level, word_table.english_translation, word_table.category 
-                FROM collation INNER JOIN word_table ON collation.word_id_fk = word_table.word_id'''
+    query = '''SELECT word_table.word, word_table.definition, word_table.level, word_table.english_translation, word_table.category, users_table.user_id
+                FROM word_table INNER JOIN users_table ON word_table.user_id_fk = users_table.user_id'''
     cur = con.cursor()
     cur.execute(query)
     word_list = cur.fetchall()
@@ -44,9 +44,8 @@ def render_login():
         email = request.form.get('email')
         con = create_connection(DATABASE)
         cur = con.cursor()
-        query = """SELECT user_id.user_table, email.users_table, password.users_table  
-                    FROM collation INNER JOIN users_table ON collation.users_id_fk = users_table.user_id
-                    WHERE email.users_table = ?"""
+        query = """SELECT user_id, email, password  
+                    FROM users_table WHERE email = email"""
         cur.execute(query, (email,))
         user_info = cur.fetchall()
         con.close()
@@ -78,14 +77,15 @@ def render_register():
             return redirect('/register?error=invalid+email')
         else:
             con  = create_connection(DATABASE)
-            #This sql adds the new users information to the database
-            query = "INSERT INTO users_table(fname, lname, permissions, password, email) VALUES(?,?,?,?,?)"
             try:
                 cur = con.cursor()
-                cur.execute(query, (fname, lname, permisson, password, email))
+                # This sql adds the new users information to the database
+                query_users = "INSERT INTO users_table(fname, lname, permissions, password, email) VALUES(?,?,?,?,?)"
+                cur.execute(query_users, (fname, lname, permisson, password, email))
             except sqlite3.IntegrityError:
                 con.close()
                 return redirect('/register?email+already+in+use')
+
             con.commit()
             con.close()
             return redirect('/login')
