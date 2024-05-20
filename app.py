@@ -2,6 +2,7 @@ import sqlite3
 from sqlite3 import Error
 from flask import Flask, render_template, redirect, request, session
 
+
 app = Flask(__name__)
 DATABASE = "C:/Users/20245/OneDrive - Wellington College/13DTS/Coding projects/flaskProject2/Dictionary"
 
@@ -16,6 +17,14 @@ def create_connection(db_file):
         print(e)
     return e
 
+
+def is_logged_in():
+    if session.get('email') is None:
+        print('not logged in')
+        return False
+    else:
+        print('logged in')
+        return True
 @app.route('/')
 def render_home():
     #This function renders the websites homepage
@@ -38,18 +47,31 @@ def render_dicionary():
 
 @app.route('/login', methods=['POST','GET'])
 def render_login():
+    if is_logged_in():
+        return redirect('/')
+    print('logging in')
     #this function renders the dictionary page of the website
     if request.method == 'POST':
         #This gets the signin information from the user and checks to see if they are in the database.
         email = request.form.get('email')
+        password_input = request.form.get('password')
+        print(email)
         con = create_connection(DATABASE)
+        query = """SELECT *  
+                    FROM users_table WHERE email = ?"""
         cur = con.cursor()
-        query = """SELECT user_id, email, password  
-                    FROM users_table WHERE email = email"""
         cur.execute(query, (email,))
         user_info = cur.fetchall()
         con.close()
         print(user_info)
+        try:
+            user_id = user_info[0]
+            user_fname = user_info[1]
+            user_lname = user_info[2]
+            user_perms = user_info[3]
+            user_password = user_info[4]
+            user_email = user_inf[5]
+        except IndexError:
     return render_template("login_page.html")
 
 @app.route('/register', methods=['POST','GET'])
@@ -67,14 +89,10 @@ def render_register():
         permisson = request.form.get('permisson')
         print(f'{fname} {lname} {password} {confirm_password} {email} {permisson} ')
         #this set of conditions makes sure that the signup details reach certain specifications
-        for character in email:
-            email_test.append(character)
         if password != confirm_password:
             return redirect('/register?error=passwords+do+not+match')
         elif len(password) < 10:
             return redirect('/register?error=password+not+long+enough')
-        elif '@' not in email_test:
-            return redirect('/register?error=invalid+email')
         else:
             con  = create_connection(DATABASE)
             try:
@@ -85,7 +103,6 @@ def render_register():
             except sqlite3.IntegrityError:
                 con.close()
                 return redirect('/register?email+already+in+use')
-
             con.commit()
             con.close()
             return redirect('/login')
