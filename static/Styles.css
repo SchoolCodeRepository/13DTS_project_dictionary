@@ -27,8 +27,7 @@ table, tr, td{
 
 }
 
-.english_equivilant{
-
+.english_translation{
 }
 
 .catagorie{
@@ -36,7 +35,8 @@ table, tr, td{
 
 }
 
-.image{
+img{
     position:absolute;
-    width:10%;
+    width:5%;
+    height:5%;
 }

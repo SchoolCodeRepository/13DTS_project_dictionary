@@ -1,10 +1,11 @@
 import sqlite3
 from sqlite3 import Error
-from flask import Flask, render_template, redirect, request, session
+from flask import Flask, render_template, redirect, request, session, make_response
 
 
 app = Flask(__name__)
 DATABASE = "C:/Users/20245/OneDrive - Wellington College/13DTS/Coding projects/flaskProject2/Dictionary"
+
 
 def create_connection(db_file):
     #This function creates a connection with the database
@@ -19,12 +20,14 @@ def create_connection(db_file):
 
 
 def is_logged_in():
+    #This code determines if the user is logged in or not so that the website can adapt accordingly
     if session.get('email') is None:
         print('not logged in')
         return False
     else:
         print('logged in')
         return True
+
 @app.route('/')
 def render_home():
     #This function renders the websites homepage
@@ -35,8 +38,7 @@ def render_dicionary():
     #this function renders the dictionary page, and returns the
     #data from a table to allow the site to acess it using sql
     con = create_connection(DATABASE)
-    query = '''SELECT word_table.word, word_table.definition, word_table.level, word_table.english_translation, word_table.category, users_table.user_id
-                FROM word_table INNER JOIN users_table ON word_table.user_id_fk = users_table.user_id'''
+    query = '''SELECT word_id, word, definition, level, english_translation, category FROM word_table'''
     cur = con.cursor()
     cur.execute(query)
     word_list = cur.fetchall()
@@ -72,6 +74,8 @@ def render_login():
             user_password = user_info[4]
             user_email = user_inf[5]
         except IndexError:
+            return redirect('/login?error=user+does+not+exist')
+
     return render_template("login_page.html")
 
 @app.route('/register', methods=['POST','GET'])
@@ -107,5 +111,6 @@ def render_register():
             con.close()
             return redirect('/login')
     return render_template("register_page.html")
+
 
 app.run(host='0.0.0.0', debug=True)
